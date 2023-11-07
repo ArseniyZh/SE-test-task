@@ -8,6 +8,7 @@
     <li><a href="https://www.docker.com/get-started/">Docker</a></li>
     <li><a href="https://fastapi-tutorial.readthedocs.io/en/latest/">FastAPI</a></li>
     <li><a href="https://docs.python.org/3/library/socket.html">Sockets</a></li>
+    <li><a href="https://www.mongodb.com/">MongoDB</a></li>
     <li><a href="https://docs.celeryq.dev/en/stable/getting-started/introduction.html">Celery</a> + <a href="https://redis.io/">Redis</a></li>
 </ul>
 
@@ -38,7 +39,7 @@ METHOD: POST <br>
 BODY: {payload: int, datetime: datetime}
 
 <h4>Endpoint: `/api/control_signals`</h4>
-METHOD: GET
-PARAMS: start_time end_time <br>
+METHOD: GET <br>
+PARAMS: start_time; end_time <br>
 Параметры должны быть строкой формата <em>"%Y-%m-%dT%H:%M:%S"</em>
  
