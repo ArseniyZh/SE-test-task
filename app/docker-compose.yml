@@ -66,8 +66,6 @@ services:
       context: ./controller
       dockerfile: Dockerfile
     command: celery -A src.celery_config worker --loglevel=INFO --concurrency=3
-#    volumes:
-#      - ./controller/src:/usr/controller/src/
     depends_on:
       - controller
       - redis
