@@ -1,0 +1,78 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: my-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    env_file:
+      - ./controller/.env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo_user
+      MONGO_INITDB_ROOT_PASSWORD: mongo_password
+    networks:
+      - backend
+
+  sensor:
+    build:
+      context: ./sensor
+      dockerfile: Dockerfile
+    networks:
+      - backend
+
+  controller:
+    build:
+      context: ./controller
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    networks:
+      - backend
+    environment:
+      - REDIS_HOST=redis
+
+  manipulator:
+    build:
+      context: ./manipulator
+      dockerfile: Dockerfile
+    networks:
+      - backend
+
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+
+  celery_beat:
+    build:
+      context: ./controller
+      dockerfile: Dockerfile
+    command: celery -A src.celery_config beat --loglevel=INFO
+    depends_on:
+      - controller
+      - redis
+    networks:
+      - backend
+
+  celery_worker:
+    build:
+      context: ./controller
+      dockerfile: Dockerfile
+    command: celery -A src.celery_config worker --loglevel=INFO --concurrency=3
+#    volumes:
+#      - ./controller/src:/usr/controller/src/
+    depends_on:
+      - controller
+      - redis
+    networks:
+      - backend
+
+networks:
+  backend:

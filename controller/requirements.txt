@@ -1,0 +1,9 @@
+fastapi
+pydantic
+celery
+django-celery-beat
+redis
+environs
+databases
+pymongo
+pytz
