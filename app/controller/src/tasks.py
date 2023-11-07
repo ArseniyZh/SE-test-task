@@ -58,7 +58,6 @@ async def get_data_for_manipulator() -> Dict[str, Union[str, datetime.datetime]]
 
     # Поиск всех сигналов, записанных за последние n секунд и копирование их в список
     recent_signals = list(signals.find({_datetime: {"$gte": interval_ago}}))
-    print("recent_signal", recent_signals[0])
 
     if not recent_signals:
         return STOP
